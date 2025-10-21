@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Web Kami</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      text-align: center;
+    }
+
+    button {
+      background: #00ff88;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #00cc6a;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: #00ff88;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="loginPage">
+    <h2>Masuk ke Web Kami</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <div id="error" class="error"></div>
+    <button onclick="login()">Masuk</button>
+  </div>
+
+  <div class="container hidden" id="welcomePage">
+    <video id="welcomeVideo" autoplay loop muted playsinline>
+      <source src="https://files.catbox.moe/z3r3ef.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video.
+    </video>
+    <h2>🎉 Makasih udah masuk web kami</h2>
+    <p>Hai, <span id="userDisplay"></span>! Makasih udah masuk 🌟</p>
+    <p>Semoga harimu menyenangkan ✨</p>
+    <a href="#" onclick="logout()">Keluar</a>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      const error = document.getElementById('error');
+
+      if (user.length < 3) {
+        error.textContent = "❌ Username minimal 3 huruf!";
+        return;
+      }
+      if (pass.length < 5) {
+        error.textContent = "❌ Password minimal 5 huruf!";
+        return;
+      }
+
+      error.textContent = "";
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('welcomePage').classList.remove('hidden');
+      document.getElementById('userDisplay').textContent = user;
+
+      // Aktifkan suara video setelah login
+      const vid = document.getElementById('welcomeVideo');
+      vid.muted = false;
+      vid.play().catch(() => {
+        console.warn("Autoplay dibatasi browser, tekan layar untuk memulai video.");
+      });
+    }
+
+    function logout() {
+      document.getElementById('welcomePage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+  </script>
+</body>
+</html>
